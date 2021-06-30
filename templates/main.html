@@ -12,20 +12,18 @@ text-align:center;
 <div>
 	<h1>이종한에게 한마디 !!</h1>
 </div>
-
-<div>
-	작성자: <input type="text" name="writter" size=15>
+<div>	
+<form action='/submit.php' name='submit' method='post'>
+	<input type="text" name="writter" size=15 placeholder='니 이름 써라'>
 	<br>
-</div>
-<div>
 	<br>
-	<textarea rows=5, cols=30>
+	<textarea name='description' rows=5, cols=30>
 	</textarea>
+	<br>
+	<br>
+	<input type="submit" name="submit" id="test" value="완료">
+</form>
 </div>
 
-<div>
-	<br>
-	<button type="button" onclick="location.href='/submit'">제출하기</button>
-</div>
 </body>
 </html>
