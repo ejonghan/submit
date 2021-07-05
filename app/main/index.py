@@ -14,14 +14,35 @@ def index():
 @main.route('/submit', methods=['GET', 'POST'])
 def submit():
     if request.method == 'POST':
+
         result = request.form
-        print(result)
+
+        # form data preprocesscing
+        writter = str(result.getlist("writter"))
+        writter = writter[2:-2]
+        description = str(result.getlist("description"))
+        description = description[2:-2]
+
+        # database insert query
+        db = Database()
+        sql = "INSERT INTO tellmeaboutme.list(writter, description, created) VALUES('%s', '%s', NOW())" % (
+            writter, description)
+        db.execute(sql)
+        db.commit()
+
         return render_template('/submit.html', result=result)
 
 
-@main.route('/get_list', methods=['GET', 'POST'])
+@ main.route('/get_list', methods=['GET', 'POST'])
 def get_list():
+
     if request.method == 'POST':
+
         result = request.form
+
+        db = Database()
+        sql = "SELECT * FROM tellmeaboutme.list"
+        view = db.executeAll(sql)
+
         print(result)
         return render_template('/get_list.html', result=result)
