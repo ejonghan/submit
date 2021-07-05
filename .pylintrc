@@ -1,0 +1,5 @@
+#init-hook=import sys;
+
+sys.path.append("/Users/macbookair/Desktop/project/tellmeaboutme");
+sys.path.append("/Users/macbookair/miniconda3/envs/tellmeaboutme/lib/python3.7/site-packages");
+sys.path.append("/Users/macbookair/miniconda3/envs/tellmeaboutme/lib/python3.7/lib-dynload");
