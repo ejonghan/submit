@@ -11,11 +11,17 @@ def index():
     return render_template('/main/index.html')
 
 
-@main.route('/submit', methods=['POST'])
+@main.route('/submit', methods=['GET', 'POST'])
 def submit():
-    return render_template('/submit.html')
+    if request.method == 'POST':
+        result = request.form
+        print(result)
+        return render_template('/submit.html', result=result)
 
 
-@main.route('/list', methods=['GET'])
+@main.route('/get_list', methods=['GET', 'POST'])
 def get_list():
-    return render_template('/list.html')
+    if request.method == 'POST':
+        result = request.form
+        print(result)
+        return render_template('/get_list.html', result=result)
