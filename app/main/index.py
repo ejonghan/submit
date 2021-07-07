@@ -30,19 +30,37 @@ def submit():
         db.execute(sql)
         db.commit()
 
-        return render_template('/submit.html', result=result)
+        return render_template('/submit.html')
 
 
-@ main.route('/get_list', methods=['GET', 'POST'])
+@main.route('/get_list', methods=['GET', 'POST'])
 def get_list():
 
     if request.method == 'POST':
-
-        result = request.form
 
         db = Database()
         sql = "SELECT * FROM tellmeaboutme.list"
         view = db.executeAll(sql)
 
-        print(result)
-        return render_template('/get_list.html', result=result)
+        view_dict = {}
+
+        for i in range(len(view)):
+
+            view_dict[str(view[i]['id'])] = f"{view[i]['writter']}님의 게시물"
+
+        return render_template('/get_list.html', view_dict=view_dict)
+
+
+@main.route('/visit', methods=['GET', 'POST'])
+def visit():
+
+    if request.method == 'POST':
+
+        get_id = request.form
+        get_id = str(get_id.getlist("id"))[2:-2]
+
+        db = Database()
+        sql = f"SELECT * FROM tellmeaboutme.list WHERE id={get_id}"
+        view = db.executeOne(sql)
+
+        return render_template('/visit.html', view=view)
