@@ -27,7 +27,7 @@
         {% for key, value in view_dict.items() %}
         <tr>
           <th>{{ key }}</th>
-          <td>{{ value }}</td>
+          <td><a href={{url_for('main.anchor_routing_visit', id=key)}}>{{ value }}</a></td>
           <td>
             <form action="visit" method="POST">
               <input type="hidden" name="id" value="{{key}}" />

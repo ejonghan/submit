@@ -11,7 +11,7 @@ def index():
     return render_template('/main/index.html')
 
 
-@main.route('/submit', methods=['GET', 'POST'])
+@main.route('/submit', methods=['POST'])
 def submit():
     if request.method == 'POST':
 
@@ -33,17 +33,19 @@ def submit():
         return render_template('/submit.html')
 
 
-@main.route('/get_list', methods=['GET', 'POST'])
+@main.route('/get_list', methods=['POST'])
 def get_list():
 
     if request.method == 'POST':
 
+        # database select query
         db = Database()
         sql = "SELECT * FROM tellmeaboutme.list"
         view = db.executeAll(sql)
 
         view_dict = {}
 
+        # create dict using script
         for i in range(len(view)):
 
             view_dict[str(view[i]['id'])] = f"{view[i]['writter']}님의 게시물"
@@ -54,6 +56,7 @@ def get_list():
 @main.route('/visit', methods=['GET', 'POST'])
 def visit():
 
+    # routed when you click '보기' button
     if request.method == 'POST':
 
         get_id = request.form
@@ -64,3 +67,20 @@ def visit():
         view = db.executeOne(sql)
 
         return render_template('/visit.html', view=view)
+
+    # routed when you clink anchor tag
+    else:
+
+        get_id = request.args.get('id')
+
+        db = Database()
+        sql = f"SELECT * FROM tellmeaboutme.list WHERE id={get_id}"
+        view = db.executeOne(sql)
+
+        return render_template('/visit.html', view=view)
+
+
+@main.route('/visit/<int:id>', methods=['GET'])
+def anchor_routing_visit(id):
+
+    return redirect(url_for('main.visit', id=id))
