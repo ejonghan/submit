@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style type="text/css">
+      div {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <br /><br /><br /><br /><br />
+      작성자 : {{view['writter']}}<br /><br />내용 : {{view['description']}}<br /><br />작성날짜
+      : {{view['created']}}
+    </div>
+    <div>
+      <br />
+      <button type="button" onclick="location.href='guestbook_list'">
+        뒤로가기
+    </div>
+    <div>
+      <script>
+        function check_delete() {
+          return confirm("삭제할꺼야?");
+        }
+        function check_update() {
+          return confirm("수정할꺼야?");
+        }
+      </script>
+      <form action="password" onsubmit="return check_delete();" method="POST">
+        <br /><br /><br /><br /><br /><br />
+        삭제하고 싶니?
+        <input type="hidden" name="id" value="{{get_id}}" />
+        <input type="hidden" name="_method" value="delete" />
+        <input type="submit" value="삭제하기" />
+      </form>
+      <form action="password" onsubmit="return check_update();" method="POST">
+        <br />
+        수정하고 싶니?
+        <input type="hidden" name="id" value="{{get_id}}" />
+        <input type="hidden" name="_method" value="update" />
+        <input type="submit" value="수정하기" />
+      </form>
+    </div>
+  </body>
+</html>
