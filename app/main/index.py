@@ -92,7 +92,6 @@ def guestbook():
         db = Database()
         sql = f"SELECT * FROM tellmeaboutme.list WHERE id={get_id}"
         view = db.executeOne(sql)
-        print(get_id)
 
         return render_template('/guestbook.html', view=view, get_id=get_id)
 
@@ -103,7 +102,7 @@ def anchor_routing_guestbook(id):
     return redirect(url_for('main.guestbook', id=id))
 
 
-@main.route('/delete', methods=["GET"])
+@main.route('/delete', methods=["POST", "GET"])
 def delete():
 
     get_id = request.args.get('id')
@@ -124,26 +123,22 @@ def delete():
     return redirect(url_for('main.guestbook_list'))
 
 
-@main.route('/update', methods=["POST"])
-def update():
-
-    print(1)
-
-
-@main.route('/check_password', methods=['POST'])
+@main.route('/divide_method', methods=["POST"])
 def divide_method():
 
-    print(1)
-    # if method_name == "delete":
-    #    return redirect(url_for('main.delete', id=id))
-    # else:
-    #   return redirect(url_for('main.updata', id=id))
+    _method = request.form['_method']
+    id = request.form['id']
+
+    if _method == "delete":
+        return redirect(url_for('main.delete', id=id))
+    else:
+        return 0
 
 
 @main.route('/password', methods=["POST"])
 def password():
 
-    method_name = request.form['_method']
+    _method = request.form['_method']
     get_id = request.form['id']
 
-    return render_template('/checkpassword.html', method_name=method_name, get_id=get_id)
+    return render_template('/checkpassword.html', _method=_method, get_id=get_id)
