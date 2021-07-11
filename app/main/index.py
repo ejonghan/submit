@@ -15,18 +15,15 @@ def index():
 def submit():
     if request.method == 'POST':
 
-        result = request.form
-
         # form data preprocesscing
-        writter = str(result.getlist("writter"))
-        writter = writter[2:-2]
-        description = str(result.getlist("description"))
-        description = description[2:-2]
+        writter = request.form['writter']
+        description = request.form['description']
+        password = request.form['password']
 
         # database insert query
         db = Database()
-        sql = "INSERT INTO tellmeaboutme.list(writter, description, created) VALUES('%s', '%s', NOW())" % (
-            writter, description)
+        sql = "INSERT INTO tellmeaboutme.list(writter, description, created, password) VALUES('%s', '%s', NOW(), '%s')" % (
+            writter, description, password)
         db.execute(sql)
         db.commit()
 
@@ -123,6 +120,38 @@ def delete():
     return redirect(url_for('main.guestbook_list'))
 
 
+@main.route('/update', methods=["POST"])
+def update():
+
+    get_id = request.form['id']
+    writter = request.form['writter']
+    description = request.form['description']
+
+    print(get_id)
+    print(writter)
+
+    db = Database()
+
+    update_sql1 = "UPDATE tellmeaboutme.list SET writter='%s' WHERE id='%s'" % (
+        writter, get_id)
+    db.execute(update_sql1)
+    update_sql2 = "UPDATE tellmeaboutme.list SET description='%s' WHERE id='%s'" % (
+        description, get_id)
+    db.execute(update_sql2)
+    db.commit()
+
+    return redirect(url_for('main.guestbook_list'))
+
+
+@main.route('/update_form', methods=["GET"])
+def update_form():
+
+    get_id = request.args.get('id')
+    print(get_id)
+
+    return render_template('update_form.html', get_id=get_id)
+
+
 @main.route('/divide_method', methods=["POST"])
 def divide_method():
 
@@ -132,7 +161,7 @@ def divide_method():
     if _method == "delete":
         return redirect(url_for('main.delete', id=id))
     else:
-        return 0
+        return redirect(url_for('main.update_form', id=id))
 
 
 @main.route('/password', methods=["POST"])

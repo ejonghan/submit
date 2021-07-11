@@ -1,5 +1,3 @@
-<!-- 시작 페이지-->
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -9,13 +7,10 @@
       }
     </style>
   </head>
-
   <body>
     <div>
-      <h1>방명록</h1>
-    </div>
-    <div>
-      <form action="submit" method="post">
+      <form action="update" method="POST">
+        <input type="hidden" name="id" value="{{get_id}}" />
         <input
           type="text"
           name="writter"
@@ -27,14 +22,7 @@
         <textarea name="description" rows="5," cols="30"> </textarea>
         <br />
         <br />
-        <input
-          type="text"
-          name="password"
-          size="15"
-          placeholder="비밀번호 적어"
-        />
-        <br /><br />
-        <input type="submit" value="완료" />
+        <input type="submit" value="수정완료" />
       </form>
     </div>
   </body>
