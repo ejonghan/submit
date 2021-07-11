@@ -72,8 +72,7 @@ def guestbook():
     # routed when you click '보기' button
     if request.method == 'POST':
 
-        get_id = request.form
-        get_id = str(get_id.getlist("id"))[2:-2]
+        get_id = request.form['id']
 
         db = Database()
         sql = f"SELECT * FROM tellmeaboutme.list WHERE id={get_id}"
@@ -127,9 +126,6 @@ def update():
     writter = request.form['writter']
     description = request.form['description']
 
-    print(get_id)
-    print(writter)
-
     db = Database()
 
     update_sql1 = "UPDATE tellmeaboutme.list SET writter='%s' WHERE id='%s'" % (
@@ -147,7 +143,6 @@ def update():
 def update_form():
 
     get_id = request.args.get('id')
-    print(get_id)
 
     return render_template('update_form.html', get_id=get_id)
 
@@ -164,10 +159,11 @@ def divide_method():
         return redirect(url_for('main.update_form', id=id))
 
 
-@main.route('/password', methods=["POST"])
-def password():
+@main.route('/password_check', methods=["POST"])
+def password_check():
 
     _method = request.form['_method']
     get_id = request.form['id']
+    password = request.form['password']
 
-    return render_template('/checkpassword.html', _method=_method, get_id=get_id)
+    return render_template('/checkpassword.html', _method=_method, get_id=get_id, password=password)
